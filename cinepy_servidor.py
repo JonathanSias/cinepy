@@ -1,23 +1,16 @@
-from socket import *
-
-HOST = 'localhost'
-PORT = 8010
-BUFSIZ = 1024
-ADDR = (HOSTPORT)
-
-tcpSerSock = socket(AF_INETSOCK_STREAM)
-tcpSerSock.bind(ADDR)
-tcpSerSock.listen(5)
-
-while 1:
-    print "esperando ligacao"
-    tcpCliSockaddr = tcpSerSock.accept()
-    print "ligado a: "addr
-
-while 1:
-    data = tcpCliSock.recv(BUFSIZ)
-    if not data: break
-    tcpCliSock.send("recebendo... >" + data)
-
-tcpCliSock.close()
-tcpSerSock.close()
+import socket
+HOST = ''                   # Endereco IP do Servidor
+PORT = 5000                 # Porta que o Servidor esta
+tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+orig = (HOST, PORT)
+tcp.bind(orig)
+tcp.listen(1)
+while True:
+    con, cliente = tcp.accept()
+    print('Concetado por', cliente)
+    while True:
+        msg = con.recv(1024)
+        if not msg: break
+        print(cliente, msg)
+    print('Finalizando conexao do cliente', cliente)
+    con.close()

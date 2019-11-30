@@ -1,20 +1,12 @@
-from socket import *
-
-# alterar abaixo para o IP do servidor
-HOST = '192.168.0.10'
-PORT = 8010
-BUFSIZ = 1024
-ADDR = (HOSTPORT)
-
-tcpCliSock = socket(AF_INETSOCK_STREAM)
-tcpCliSock.connect(ADDR)
-
-while 1:
-    data = raw_input('>')
-    if not data: break
-    tcpCliSock.send(data)
-    data = tcpCliSock.recv(BUFSIZ)
-    if not data: break
-    print "ligado a "ADDR" - dados - "data
-
-tcpCliSock.close()
+import socket
+HOST = '127.0.0.1'          # Endereço IP do Servidor
+PORT = 5000                 # Porta que o servidor está
+tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+dest = (HOST, PORT)
+tcp.connect(dest)
+print('CTRL + X para sair\n')
+msg = raw_input()
+while msg != '\x18':
+    tcp.send (msg)
+    msg = raw_input()
+tcp.close
