@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import socket
 HOST = ''                   # Endereco IP do Servidor
 PORT = 5000                 # Porta que o Servidor esta
