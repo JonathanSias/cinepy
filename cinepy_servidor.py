@@ -79,26 +79,31 @@ def lista_filmes(typelist):
         glist = ""
         for i in range(len(action)):
             glist += ((action[i].name)+"\n")
+        con.send(glist)
             # print(action[i].name)
     elif(typelist == "aventura"):
         glist = ""
         for i in range(len(aventura)):
             glist += ((aventura[i].name)+"\n")
+        con.send(glist)
             # print(aventura[i].name)
     elif(typelist == "terror"):
         glist = ""
         for i in range(len(terror)):
             glist += ((terror[i].name)+"\n")
+        con.send(glist)
             # print(terror[i].name)
     elif(typelist == "sfiction"):
         glist = ""
         for i in range(len(sfiction)):
             glist += ((sfiction[i].name)+"\n")
+        con.send(glist)
             # print(sfiction[i].name)
     elif(typelist == "romance"):
         glist = ""
         for i in range(len(romance)):
             glist += ((romance[i].name)+"\n")
+        con.send(glist)
             # print(romance[i].name)
     elif(typelist == "comedia"):
         glist = ""
@@ -110,53 +115,115 @@ def lista_filmes(typelist):
         glist = ""
         for i in range(len(documentario)):
             glist += ((documentario[i].name)+"\n")
+        con.send(glist)
             # print(documentario[i].name)
     elif(typelist == "fantasy"):
         glist = ""
         for i in range(len(fantasy)):
             glist += ((fantasy[i].name)+"\n")
+        con.send(glist)
             # print(fantasy[i].name)
     elif(typelist == "drama"):
         glist = ""
         for i in range(len(drama)):
             glist += ((drama[i].name)+"\n")
+        con.send(glist)
             # print(drama[i].name)
     elif(typelist == "western"):
         glist = ""
         for i in range(len(western)):
             glist += ((western[i].name)+"\n")
+        con.send(glist)
             # print(western[i].name)
     elif(typelist == "guerra"):
         glist = ""
         for i in range(len(guerra)):
             glist += ((guerra[i].name)+"\n")
+        con.send(glist)
             # print(guerra[i].name)
     elif(typelist == "animation"):
         glist = ""
         for i in range(len(animation)):
             glist += ((animation[i].name)+"\n")
+        con.send(glist)
             # print(animation[i].name)
     elif(typelist == "suspense"):
         glist = ""
         for i in range(len(suspense)):
             glist += ((suspense[i].name)+"\n")
+        con.send(glist)
             # print(suspense[i].name)
     elif(typelist == "comics"):
         glist = ""
         for i in range(len(comics)):
             glist += ((comics[i].name)+"\n")
+        con.send(glist)
             # print(comics[i].name)
     elif(typelist == "tudo"):
         glist = ""
         for i in range(len(allmovies)):
             glist += ((allmovies[i].name)+"\n")
+        con.send(glist)
             # print(allmovies[i].name)
-    else:
-        # print("ERRO 404 NOT FOUND")
-        break
 # ##################################################
 # funçao lista os horarios
-
+# recebe nome do filme como parametro
+# procura o filme e salva o horario da seção
+# concatena com o nome e envia ao cliente
+guardahorario = ""
+def horarios(moviename):
+    for i in range(len(allmovies)):
+        if ((allmovies[i].name) == moviename):
+            hora = ((allmovies[i].section))
+    tmp = (moviename + " às " + (str(hora)) + " horas\n")
+    con.send(tmp)
+    guardahorario = (str(hora))
+# ##################################################
+# confirmação da seção
+def confirmar(moviename, choice):
+    if (choice == "y"):
+        for i in range(len(allmovies)):
+            if ((allmovies[i].name) == moviename):
+                # ntickets = (allmovies[i].tickets)
+                con.send("Número de tickets: \n")
+                msg = con.recv(1024)
+                tickets = msg
+                pagamento(moviename, tickets)
+        # verifica_tickets(tickets, moviename)
+    elif (choice == "n"):
+        con.send("O Que Deseja ? \n")
+# ##################################################
+# verifica disponibilidade de tickets
+def verifica_tickets(tickets, moviename):
+    if (tickets <= ntickets):
+        for i in range(len(allmovies)):
+            if ((allmovies[i].name) == moviename):
+                con.send("Finalizar Compra ? pay/n \n")
+                msg = con.recv(1024)
+                if (msg == "pay"):
+                    pagamento(moviename, tickets)
+                # else:
+                #     break
+                # allmovies[i].tickets = (allmovies[i].tickets - tickets)
+    # con.send("Finalizar Compra ? pay/n \n")
+    # msg = con.recv(1024)
+    # if (msg == "pay"):
+    #     # 
+# ##################################################
+# pagamento
+def pagamento(moviename, tickets):
+    for i in range(len(allmovies)):
+        if ((allmovies[i].name) == moviename):
+            allmovies[i].tickets = (allmovies[i].tickets - (int(tickets)))
+            totalapagar = (((float(tickets))) * (allmovies[i].price))
+            movie = moviename
+            horario = (allmovies[i].section)
+            horario = (str(horario))
+            valortotal = (totalapagar)
+            valortotal = (str(valortotal))
+    finaliza = ""
+    finaliza += (movie + " às " + horario + " horas ; TOTAL: R$ " + valortotal)
+    con.send(finaliza)
 # ##################################################
 HOST = ''                   # Endereco IP do Servidor
 PORT = 5000                 # Porta que o Servidor esta
@@ -170,7 +237,8 @@ while True:
     print('Concetado por', cliente)
     while True:
         msg = con.recv(1024)
-        # trata a requisição do cliente
+        # ##################################################
+        # LIST TYPELIST
         if (msg == "lista tudo"):
             typelist = "tudo"
             lista_filmes(typelist)
@@ -216,6 +284,23 @@ while True:
         if (msg == "lista comics"):
             typelist = "comics"
             lista_filmes(typelist)
+        # ##################################################
+        # SECTIONS MOVIENAME
+        if (msg == "sections"):
+            con.send("Nome do Filme: \n")
+            msg = con.recv(1024)
+            moviename = msg
+            horarios(moviename)
+        # ##################################################
+        # CONFIRM CHOICE
+        if (msg == "confirm"):
+            con.send("Nome do Filme: \n")
+            msg = con.recv(1024)
+            moviename = msg
+            con.send("Confirma ? y/n: \n")
+            msg = con.recv(1024)
+            choice = msg
+            confirmar(moviename, choice)
         if not msg: break
         print(cliente, msg)
         # con.send("bla bla bla")
