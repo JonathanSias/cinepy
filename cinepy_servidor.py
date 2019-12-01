@@ -76,19 +76,29 @@ allmovies = [movie0, movie1, movie2, movie3, movie4, movie5, movie6, movie7, mov
 # função que lista os filmes disponiveis
 def lista_filmes(typelist):
     if(typelist == "action"):
+        glist = ""
         for i in range(len(action)):
+            glist += ((action[i].name)+"\n")
             # print(action[i].name)
     elif(typelist == "aventura"):
+        glist = ""
         for i in range(len(aventura)):
+            glist += ((aventura[i].name)+"\n")
             # print(aventura[i].name)
     elif(typelist == "terror"):
+        glist = ""
         for i in range(len(terror)):
+            glist += ((terror[i].name)+"\n")
             # print(terror[i].name)
     elif(typelist == "sfiction"):
+        glist = ""
         for i in range(len(sfiction)):
+            glist += ((sfiction[i].name)+"\n")
             # print(sfiction[i].name)
     elif(typelist == "romance"):
+        glist = ""
         for i in range(len(romance)):
+            glist += ((romance[i].name)+"\n")
             # print(romance[i].name)
     elif(typelist == "comedia"):
         glist = ""
@@ -97,31 +107,49 @@ def lista_filmes(typelist):
         con.send(glist)
             # print(comedia[i].name)
     elif(typelist == "documentario"):
+        glist = ""
         for i in range(len(documentario)):
+            glist += ((documentario[i].name)+"\n")
             # print(documentario[i].name)
     elif(typelist == "fantasy"):
+        glist = ""
         for i in range(len(fantasy)):
+            glist += ((fantasy[i].name)+"\n")
             # print(fantasy[i].name)
     elif(typelist == "drama"):
+        glist = ""
         for i in range(len(drama)):
+            glist += ((drama[i].name)+"\n")
             # print(drama[i].name)
     elif(typelist == "western"):
+        glist = ""
         for i in range(len(western)):
+            glist += ((western[i].name)+"\n")
             # print(western[i].name)
     elif(typelist == "guerra"):
+        glist = ""
         for i in range(len(guerra)):
+            glist += ((guerra[i].name)+"\n")
             # print(guerra[i].name)
     elif(typelist == "animation"):
+        glist = ""
         for i in range(len(animation)):
+            glist += ((animation[i].name)+"\n")
             # print(animation[i].name)
     elif(typelist == "suspense"):
+        glist = ""
         for i in range(len(suspense)):
+            glist += ((suspense[i].name)+"\n")
             # print(suspense[i].name)
     elif(typelist == "comics"):
+        glist = ""
         for i in range(len(comics)):
+            glist += ((comics[i].name)+"\n")
             # print(comics[i].name)
     elif(typelist == "tudo"):
+        glist = ""
         for i in range(len(allmovies)):
+            glist += ((allmovies[i].name)+"\n")
             # print(allmovies[i].name)
     else:
         # print("ERRO 404 NOT FOUND")
