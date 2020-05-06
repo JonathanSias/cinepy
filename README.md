@@ -8,7 +8,3 @@
 ## Authors
 
 * **Jonathan Sias** 
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
